@@ -166,4 +166,3 @@ if __name__ == '__main__':
 
 
     structure = main(args)
-    return structure
