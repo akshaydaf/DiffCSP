@@ -146,6 +146,7 @@ def main(args):
             writer.write_file(tar_file)
         else:
             print(f"{i+1} Error Structure.")
+    return strcuture_list[-1]
       
 
 
