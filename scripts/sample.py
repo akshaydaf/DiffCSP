@@ -111,6 +111,7 @@ def get_pymatgen(crystal_array):
             lattice=Lattice.from_parameters(
                 *(lengths.tolist() + angles.tolist())),
             species=atom_types, coords=frac_coords, coords_are_cartesian=False)
+        print(structure)
         return structure
     except:
         return None
@@ -136,7 +137,7 @@ def main(args):
     (frac_coords, atom_types, lattices, lengths, angles, num_atoms) = diffusion(test_loader, model, args.step_lr)
 
     crystal_list = get_crystals_list(frac_coords, atom_types, lengths, angles, num_atoms)
-
+    print(crystal_list)
     strcuture_list = p_map(get_pymatgen, crystal_list)
 
     for i,structure in enumerate(strcuture_list):
