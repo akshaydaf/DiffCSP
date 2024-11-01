@@ -146,9 +146,11 @@ def main(args):
             writer.write_file(tar_file)
         else:
             print(f"{i+1} Error Structure.")
-    return strcuture_list[-1]
-      
-
+    if strcuture_list:
+        return strcuture_list[-1]
+    else:
+        print("No structures found.")
+        return None
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
