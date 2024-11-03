@@ -8,7 +8,7 @@ from pathlib import Path
 from types import SimpleNamespace
 from torch_geometric.data import Data, Batch, DataLoader
 from torch.utils.data import Dataset
-from eval_utils import load_model, lattices_to_params_shape, get_crystals_list
+from .eval_utils import load_model, lattices_to_params_shape, get_crystals_list
 
 from pymatgen.core.structure import Structure
 from pymatgen.core.lattice import Lattice
@@ -135,7 +135,6 @@ def main(args):
     (frac_coords, atom_types, lattices, lengths, angles, num_atoms) = diffusion(test_loader, model, args.step_lr)
 
     crystal_list = get_crystals_list(frac_coords, atom_types, lengths, angles, num_atoms)
-
     strcuture_list = p_map(get_pymatgen, crystal_list)
 
     for i,structure in enumerate(strcuture_list):
@@ -145,8 +144,11 @@ def main(args):
             writer.write_file(tar_file)
         else:
             print(f"{i+1} Error Structure.")
-      
-
+    if strcuture_list:
+        return strcuture_list[-1]
+    else:
+        print("No structures found.")
+        return None
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -160,4 +162,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
 
-    main(args)
+    structure = main(args)
